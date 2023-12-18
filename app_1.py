@@ -154,7 +154,7 @@ elif side_bar == 'model analysis':
            
           
 elif side_bar == 'Predict Accommodation cost':  
-    df = pd.read_csv(r"C:\Users\11 PrO\Desktop\Travel details dataset2.csv")
+    df = pd.read_csv(r"C:\Users\11 PrO\Desktop\Travel details dataset3.csv")
     X = df.iloc[:, [1, 3,8,12]].values
     y= df.iloc[:, 9].values
     from sklearn.preprocessing import LabelEncoder

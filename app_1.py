@@ -14,7 +14,7 @@ import plotly.io as pio
 import plotly.express as px
 import joblib
 import base64
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
 
 def sidebar_bg(side_bg):
@@ -55,7 +55,7 @@ st.markdown(
 st.sidebar.title("Travel analysis+accommodation cost prediction")
 st.sidebar.image("https://media.giphy.com/media/KenFWffodaDVaceDa6/giphy.gif",width = 100)
 st.sidebar.markdown("")
-side_bar = st.sidebar.radio('What would you like to view?', [ 'About the dataset', 'Data Analysis🔎', 'model analysis','Predict Accommodation cost','About the model'])
+side_bar = st.sidebar.radio('What would you like to view?', [ 'About the dataset', 'Data Analysis🔎', 'Accommadation model analysis','Predict Accommodation cost','About the model'])
 
 if side_bar == 'About the dataset':
     header = st.container()
@@ -77,18 +77,17 @@ if side_bar == 'About the dataset':
                     ---  ------                 --------------  ----- 
                     0   Trip ID                137 non-null    int64 
                     1   Destination            137 non-null    object
-                    2   Start date             137 non-null    object
-                    3   End date               137 non-null    object
-                    4   Duration (days)        137 non-null    int64 
-                    5   Traveler name          137 non-null    object
-                    6   Traveler age           137 non-null    int64 
-                    7   Traveler gender        137 non-null    object
-                    8   Traveler nationality   137 non-null    object
-                    9   Accommodation type     137 non-null    object
-                    10  Accommodation cost     137 non-null    int64 
-                    11  Transportation type    137 non-null    object
-                    12  Transportation cost    137 non-null    int64 
-                    13  Overall Travel Budget  137 non-null    int64 
+                    2   End date               137 non-null    object
+                    3   Duration (days)        137 non-null    int64 
+                    4   Traveler name          137 non-null    object
+                    5   Traveler age           137 non-null    int64 
+                    6   Traveler gender        137 non-null    object
+                    7   Traveler nationality   137 non-null    object
+                    8   Accommodation type     137 non-null    object
+                    9   Accommodation cost     137 non-null    int64 
+                    10  Transportation type    137 non-null    object
+                    11  Transportation cost    137 non-null    int64 
+                    12  Overall Travel Budget  137 non-null    int64 
             ```
             '''
             st.markdown(markdown_text)
@@ -139,10 +138,10 @@ elif side_bar == 'Data Analysis🔎':
             i5 = Image.open(r"C:\Users\11 PrO\Desktop\ML project papers\nationality.png")
             st.image(i5, width = 500)
 
-elif side_bar == 'model analysis':  
+elif side_bar == 'Accommadation model analysis':  
     text,img2 = st.columns((2,1))
     with text:
-        st.title(" model analysis")
+        st.title("Accommodation cost analysis")
         st.write("")
     with img2:
         st.image("https://media.giphy.com/media/JrXas5ecb4FkwbFpIE/giphy.gif", width = 150)
@@ -154,7 +153,7 @@ elif side_bar == 'model analysis':
            
           
 elif side_bar == 'Predict Accommodation cost':  
-    df = pd.read_csv(r"C:\Users\11 PrO\Desktop\Travel details dataset3.csv")
+    df = pd.read_csv(r"C:\Users\11 PrO\Desktop\Travel details dataset2.csv")
     X = df.iloc[:, [1, 3,8,12]].values
     y= df.iloc[:, 9].values
     from sklearn.preprocessing import LabelEncoder
@@ -163,8 +162,8 @@ elif side_bar == 'Predict Accommodation cost':
     X[:,2] = le.fit_transform(X[:,2])
     from sklearn.model_selection import train_test_split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 1)
-    from sklearn.tree import DecisionTreeRegressor
-    tree = DecisionTreeRegressor()
+    from sklearn.ensemble import RandomForestRegressor
+    tree = RandomForestRegressor()
     tree.fit(X, y) 
     text,img2 = st.columns((2,1))
     with text:
@@ -172,12 +171,12 @@ elif side_bar == 'Predict Accommodation cost':
         st.write("")   
     with img2:
         st.image("https://media.giphy.com/media/6NG1WV8bEChNJH3Z9R/giphy.gif", width = 150)
-    st.write("Model used: Decision Tree Regressor")  
+    st.write("Model used: Random Forest Regressor")  
     with st.form(key='transcost_form'):
             Destination = st.text_input("Enter Destination:")
             Duration = st.number_input("Enter the duration:")
             Travel_budget = st.number_input("Enter your overall Travel Budget( in $):")
-            opt1=['Hotel', 'Resort', 'Villa', 'Airbnb', 'Hostel', 'Riad','Vacation rental', 'Guesthouse']
+            opt1=['Hotel', 'Resort', 'Villa', 'Airbnb', 'Hostel', 'Raid','Vacation rental', 'Guesthouse']
             Accomod = st.selectbox("Select a Model: ", opt1)
             submit_button = st.form_submit_button(label='Submit')
             if submit_button:
@@ -217,8 +216,8 @@ elif side_bar == "About the model":
     st.write("")
     
     markdown3= '''
-    Moving on, The technique used for the purpose of this project is regression. The Random Forest Regressor was used to build the model
-    for predicting the Accommodation cost.
+    Moving on, The technique used for the purpose of this project is regression. Out of the many regression models, The Random Forest Regressor
+    tends to give a good R-square value for predicting the Accommodation cost.
     '''
     st.markdown(markdown3)
     st.write("")
